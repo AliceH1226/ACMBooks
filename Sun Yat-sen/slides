@@ -1,0 +1,128 @@
+
+
+
+
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+
+const int maxn=100;
+struct H
+{
+    int x_min;
+    int x_max;
+    int y_min;
+    int y_max;
+     int match;
+     int cnt;
+     int markj;
+}h[maxn];
+struct B
+{
+    int x;
+    int y;
+    bool vis;
+
+
+}b[maxn];
+int main()
+{
+    freopen("C:\\Users\\lenovo\\Desktop\\tmp.txt","r",stdin); //输入重定向，输入数据将从in.txt文件中读取
+   // freopen("C:\\Users\\lenovo\\Desktop\\tmpout.txt","w",stdout); //输出重定向，输出数据将保存在out.txt文件中
+    int n;
+    cin>>n;
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        cin>>h[i].x_min>>h[i].x_max>>h[i].y_min>>h[i].y_max;
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        cin>>b[i].x>>b[i].y;
+    }
+    for(int i=0;i<n;i++)
+    {
+
+        int tmpmark;
+        for(int j=0;j<n;j++)
+        {
+
+
+
+            if(h[i].x_min<=b[j].x&&b[j].x<=h[i].x_max&&h[i].y_min<=b[j].y&&b[j].y<=h[i].y_max)
+            {
+
+
+                h[i].cnt++;
+                tmpmark=j;
+
+            }
+
+        }
+        if(h[i].cnt==1)
+            {
+
+                b[tmpmark].vis=true;
+                h[i].match=tmpmark+1;
+                sum++;
+
+
+                break;
+            }
+            else
+            {
+                h[i].cnt=0;
+            }
+
+    }
+
+    int m;
+    m=n;
+   while(m--)
+   {
+     for(int i=0;i<n;i++)
+    {
+        if(h[i].cnt==0)
+        {
+        for(int j=0;j<n;j++)
+        {
+            if(h[i].x_min<=b[j].x&&b[j].x<=h[i].x_max&&h[i].y_min<=b[j].y&&b[j].y<=h[i].y_max&&!b[j].vis)
+            {
+
+                h[i].match=j+1;
+                h[i].cnt++;
+            }
+        }
+        if(h[i].cnt==1)
+        {
+            b[h[i].match-1].vis=true;
+            sum++;
+        }
+        else
+        {
+            h[i].match=0;
+            h[i].cnt=0;
+        }
+        }
+    }
+   }
+    if(sum!=n)
+    {
+        cout<<"None"<<endl;
+        return 0;
+    }
+    for(int i=0;i<n;i++)
+    {
+        char tmp='A'+i;
+        cout<<tmp<<" "<<h[i].match<<endl;
+    }
+
+
+     fclose(stdin);//关闭文件
+    //fclose(stdout);//关闭文件
+
+
+}
